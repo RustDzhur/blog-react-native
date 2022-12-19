@@ -1,16 +1,14 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, ImageBackground } from "react-native";
-// import bg from './assets/bg.jpg'
-
+import { LoginScreen } from "./Screens/LoginScreen";
+import { RegistrationScreen } from "./Screens/RegistrationScreen";
 
 export default function App() {
 	return (
 		<View style={styles.container}>
-			<ImageBackground source={require('./assets/bg.jpg')} style={styles.bg}>
-				<Text style={styles.text}>
-					Open up App.js to start working on your app?
-				</Text>
-				<StatusBar style="auto" />
+			<ImageBackground source={require("./assets/bg.jpg")} style={styles.bg}>
+				<LoginScreen/>
+				<RegistrationScreen/>
 			</ImageBackground>
 		</View>
 	);
@@ -30,8 +28,7 @@ const styles = StyleSheet.create({
 	},
 	bg: {
 		flex: 1,
-		resizeMode: 'cover',
-		justifyContent: 'center',
-		width: '100%',
-	}
+		justifyContent: "center",
+		width: "100%",
+	},
 });
