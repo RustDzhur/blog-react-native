@@ -1,14 +1,21 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, ImageBackground } from "react-native";
-import { LoginScreen } from "./Screens/LoginScreen";
-import { RegistrationScreen } from "./Screens/RegistrationScreen";
+import {
+	StyleSheet,
+	View,
+	ImageBackground,
+	KeyboardAvoidingView,
+} from "react-native";
+import { RegLogForm } from "./Screens/regLogForm";
 
 export default function App() {
 	return (
 		<View style={styles.container}>
 			<ImageBackground source={require("./assets/bg.jpg")} style={styles.bg}>
-				<LoginScreen/>
-				<RegistrationScreen/>
+				<KeyboardAvoidingView
+					behavior={Platform.OS === "ios" ? "padding" : "height"}>
+					<View style={styles.form}>
+						<RegLogForm />
+					</View>
+				</KeyboardAvoidingView>
 			</ImageBackground>
 		</View>
 	);
@@ -18,17 +25,20 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: "#fff",
-		alignItems: "center",
-		justifyContent: "center",
-	},
-	text: {
-		color: "green",
-		fontSize: 35,
-		textAlign: "center",
 	},
 	bg: {
 		flex: 1,
-		justifyContent: "center",
+		resizeMode: "cover",
 		width: "100%",
+		justifyContent: "flex-end",
+	},
+	form: {
+		backgroundColor: "#fff",
+		paddingTop: 92,
+		paddingBottom: 45,
+		paddingLeft: 16,
+		paddingRight: 16,
+		borderTopStartRadius: 25,
+		borderTopEndRadius: 25,
 	},
 });

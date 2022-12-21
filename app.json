@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "blog-react-native",
+    "name": "BLOG",
     "slug": "blog-react-native",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -12,7 +12,8 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/496f0c95-6bf9-46e5-a9b2-e9cc4f630142"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -28,6 +29,15 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "496f0c95-6bf9-46e5-a9b2-e9cc4f630142"
+      }
+    },
+    "owner": "gespenster",
+    "runtimeVersion": {
+      "policy": "sdkVersion"
     }
   }
 }
