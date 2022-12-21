@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
 	Text,
 	StyleSheet,
@@ -6,7 +7,14 @@ import {
 	TouchableOpacity,
 } from "react-native";
 
-export const RegistrationScreen = () => {
+export const RegistrationScreen = ({ setIsShowKeyboard }) => {
+	const [changeName, setChangeName] = useState("");
+	const [changeEmail, setChangeEmail] = useState("");
+	const [changePassword, setChangePassword] = useState("");
+
+	const handleChangeValue = () => {
+		alert('Name: ' + changeName + '\n' + 'Email: ' + changeEmail + '\n' + 'Password: ' + changePassword);
+	};
 	return (
 		<View style={styles.regContainer}>
 			<Text style={styles.title}>Registration</Text>
@@ -16,6 +24,8 @@ export const RegistrationScreen = () => {
 						style={styles.input}
 						textAlign={"left"}
 						placeholder={"Name"}
+						onFocus={() => setIsShowKeyboard(true)}
+						onChangeText={setChangeName}
 					/>
 				</View>
 				<View style={styles.inputBox}>
@@ -23,6 +33,8 @@ export const RegistrationScreen = () => {
 						style={styles.input}
 						textAlign={"left"}
 						placeholder={"Email address"}
+						onFocus={() => setIsShowKeyboard(true)}
+						onChangeText={setChangeEmail}
 					/>
 				</View>
 				<View>
@@ -31,9 +43,11 @@ export const RegistrationScreen = () => {
 						textAlign={"left"}
 						placeholder={"Password"}
 						secureTextEntry={true}
+						onFocus={() => setIsShowKeyboard(true)}
+                        onChangeText={setChangePassword}
 					/>
 				</View>
-				<TouchableOpacity activeOpacity={0.6}>
+				<TouchableOpacity activeOpacity={0.6} onPress={handleChangeValue}>
 					<View style={styles.button}>
 						<Text style={styles.buttonText}>Registration</Text>
 					</View>
@@ -58,7 +72,7 @@ const styles = StyleSheet.create({
 	},
 	form: {
 		marginBottom: 16,
-        paddingHorizontal: 10,
+		paddingHorizontal: 10,
 	},
 	input: {
 		backgroundColor: "#E8E8E8",
@@ -75,13 +89,13 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 32,
 		paddingVertical: 16,
 		backgroundColor: "#FF6C00",
-        borderRadius: 100,
-        alignItems: "center",
+		borderRadius: 100,
+		alignItems: "center",
 		marginTop: 43,
 	},
-    buttonText: {
-        color: '#fff',
-        fontSize: 16,
-        lineHeight: 19,
-    },
+	buttonText: {
+		color: "#fff",
+		fontSize: 16,
+		lineHeight: 19,
+	},
 });

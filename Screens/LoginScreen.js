@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
 	Text,
 	StyleSheet,
@@ -6,7 +7,14 @@ import {
 	TouchableOpacity,
 } from "react-native";
 
-export const LoginScreen = () => {
+export const LoginScreen = ({setIsShowKeyboard}) => {
+	const [changeEmail, setChangeEmail] = useState("");
+	const [changePassword, setChangePassword] = useState("");
+
+	const handleChangeValue = () => {
+		alert('Email: ' + changeEmail + '\n' + 'Password: ' + changePassword);
+	};
+
 	return (
 		<View style={styles.regContainer}>
 			<Text style={styles.title}>Login</Text>
@@ -16,6 +24,8 @@ export const LoginScreen = () => {
 						style={styles.input}
 						textAlign={"left"}
 						placeholder={"Email address"}
+                        onFocus={() => setIsShowKeyboard(true)}
+                        onChangeText={setChangeEmail}
 					/>
 				</View>
 				<View>
@@ -24,9 +34,11 @@ export const LoginScreen = () => {
 						textAlign={"left"}
 						placeholder={"Password"}
 						secureTextEntry={true}
+                        onFocus={() => setIsShowKeyboard(true)}
+                        onChangeText={setChangePassword}
 					/>
 				</View>
-				<TouchableOpacity activeOpacity={0.6}>
+				<TouchableOpacity activeOpacity={0.6} onPress={handleChangeValue}>
 					<View style={styles.button}>
 						<Text style={styles.buttonText}>Login</Text>
 					</View>
