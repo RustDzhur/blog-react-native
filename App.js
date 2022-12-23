@@ -7,13 +7,14 @@ import {
 	TouchableWithoutFeedback,
 	Keyboard,
 } from "react-native";
-import { RegLogForm } from "./Screens/regLogForm";
+import { RegLogForm } from "./components/regLogForm";
 
 export default function App() {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+
 	return (
 		<View style={styles.container}>
-			<ImageBackground source={require("./assets/bg.jpg")} style={styles.bg}>
+			<ImageBackground source={require("./assets/images/bg.jpg")} style={styles.bg}>
 				<KeyboardAvoidingView
 					behavior={Platform.OS === "ios" ? "padding" : "height"}>
 					<TouchableWithoutFeedback onPress={() => (Keyboard.dismiss) (setIsShowKeyboard(false))}>
