@@ -23,7 +23,7 @@ export const RegistrationScreen = ({ setIsShowKeyboard }) => {
 	}
 
 	const handleChangeValue = () => {
-		alert(
+		console.log(
 			"Name: " +
 				changeName +
 				"\n" +

@@ -23,7 +23,7 @@ export const LoginScreen = ({setIsShowKeyboard}) => {
 
 
 	const handleChangeValue = () => {
-		alert('Email: ' + changeEmail + '\n' + 'Password: ' + changePassword);
+		console.log('Email: ' + changeEmail + '\n' + 'Password: ' + changePassword);
 	};
 
 	return (
