@@ -7,10 +7,12 @@ import {
 	TextInput,
 	TouchableOpacity,
 } from "react-native";
+import { Background } from "../components/background";
 
-export const LoginScreen = ({setIsShowKeyboard}) => {
+export const LoginScreen = ({ navigation }) => {
 	const [changeEmail, setChangeEmail] = useState("");
 	const [changePassword, setChangePassword] = useState("");
+	const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
 	const [loaded] = useFonts({
 		RobotoRegular: require("../assets/fonts/Roboto-Regular.ttf"),
@@ -21,41 +23,58 @@ export const LoginScreen = ({setIsShowKeyboard}) => {
 		return null;
 	}
 
-
 	const handleChangeValue = () => {
-		console.log('Email: ' + changeEmail + '\n' + 'Password: ' + changePassword);
+		console.log("Email: " + changeEmail + "\n" + "Password: " + changePassword);
 	};
 
 	return (
-		<View style={styles.regContainer}>
-			<Text style={{ ...styles.title, fontFamily: "RobotoMedium" }}>Login</Text>
-			<View style={styles.form}>
-				<View style={styles.inputBox}>
-					<TextInput
-						style={{ ...styles.input, fontFamily: "RobotoRegular" }}
-						textAlign={"left"}
-						placeholder={"Email address"}
-                        onFocus={() => setIsShowKeyboard(true)}
-                        onChangeText={setChangeEmail}
-					/>
-				</View>
-				<View>
-					<TextInput
-						style={{ ...styles.input, fontFamily: "RobotoRegular" }}
-						textAlign={"left"}
-						placeholder={"Password"}
-						secureTextEntry={true}
-                        onFocus={() => setIsShowKeyboard(true)}
-                        onChangeText={setChangePassword}
-					/>
-				</View>
-				<TouchableOpacity activeOpacity={0.6} onPress={handleChangeValue}>
-					<View style={styles.button}>
-						<Text style={{ ...styles.buttonText, fontFamily: "RobotoRegular" }}>Login</Text>
+		<Background
+			setIsShowKeyboard={setIsShowKeyboard}
+			isShowKeyboard={isShowKeyboard}>
+			<View style={styles.regContainer}>
+				<Text style={{ ...styles.title, fontFamily: "RobotoMedium" }}>
+					Login
+				</Text>
+				<View style={styles.form}>
+					<View style={styles.inputBox}>
+						<TextInput
+							style={{ ...styles.input, fontFamily: "RobotoRegular" }}
+							textAlign={"left"}
+							placeholder={"Email address"}
+							onFocus={() => setIsShowKeyboard(true)}
+							onChangeText={setChangeEmail}
+						/>
 					</View>
-				</TouchableOpacity>
+					<View>
+						<TextInput
+							style={{ ...styles.input, fontFamily: "RobotoRegular" }}
+							textAlign={"left"}
+							placeholder={"Password"}
+							secureTextEntry={true}
+							onFocus={() => setIsShowKeyboard(true)}
+							onChangeText={setChangePassword}
+						/>
+					</View>
+					<TouchableOpacity activeOpacity={0.6} onPress={handleChangeValue}>
+						<View style={styles.button}>
+							<Text
+								style={{ ...styles.buttonText, fontFamily: "RobotoRegular" }}>
+								Login
+							</Text>
+						</View>
+					</TouchableOpacity>
+				</View>
+				{!isShowKeyboard && (
+					<View style={styles.changeForm}>
+						<Text
+							style={{ ...styles.text, fontFamily: "RobotoRegular" }}
+							onPress={() => navigation.navigate("Register")}>
+							Don't have an account? Register
+						</Text>
+					</View>
+				)}
 			</View>
-		</View>
+		</Background>
 	);
 };
 
@@ -71,9 +90,9 @@ const styles = StyleSheet.create({
 		color: "#212121",
 		marginBottom: 32,
 	},
-    form: {
+	form: {
 		marginBottom: 16,
-        paddingHorizontal: 10,
+		paddingHorizontal: 10,
 	},
 	input: {
 		backgroundColor: "#E8E8E8",
@@ -91,13 +110,21 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 32,
 		paddingVertical: 16,
 		backgroundColor: "#FF6C00",
-        borderRadius: 100,
-        alignItems: "center",
+		borderRadius: 100,
+		alignItems: "center",
 		marginTop: 43,
 	},
-    buttonText: {
-        color: '#fff',
-        fontSize: 16,
-        lineHeight: 19,
-    },
+	buttonText: {
+		color: "#fff",
+		fontSize: 16,
+		lineHeight: 19,
+	},
+	changeForm: {
+		alignItems: "center",
+	},
+	text: {
+		fontSize: 16,
+		lineHeight: 19,
+		color: "#1B4371",
+	},
 });

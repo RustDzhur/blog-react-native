@@ -7,11 +7,13 @@ import {
 	TextInput,
 	TouchableOpacity,
 } from "react-native";
+import { Background } from "../components/background";
 
-export const RegistrationScreen = ({ setIsShowKeyboard }) => {
+export const RegistrationScreen = ({ navigation }) => {
 	const [changeName, setChangeName] = useState("");
 	const [changeEmail, setChangeEmail] = useState("");
 	const [changePassword, setChangePassword] = useState("");
+	const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
 	const [loaded] = useFonts({
 		RobotoRegular: require("../assets/fonts/Roboto-Regular.ttf"),
@@ -35,47 +37,67 @@ export const RegistrationScreen = ({ setIsShowKeyboard }) => {
 		);
 	};
 	return (
-		<View style={styles.regContainer}>
-			<Text style={{ ...styles.title, fontFamily: "RobotoMedium" }}>
-				Registration
-			</Text>
-			<View style={styles.form}>
-				<View style={styles.inputBox}>
-					<TextInput
-						style={{ ...styles.input, fontFamily: "RobotoRegular" }}
-						textAlign={"left"}
-						placeholder={"Name"}
-						onFocus={() => setIsShowKeyboard(true)}
-						onChangeText={setChangeName}
-					/>
-				</View>
-				<View style={styles.inputBox}>
-					<TextInput
-						style={{ ...styles.input, fontFamily: "RobotoRegular" }}
-						textAlign={"left"}
-						placeholder={"Email address"}
-						onFocus={() => setIsShowKeyboard(true)}
-						onChangeText={setChangeEmail}
-					/>
-				</View>
-				<View>
-					<TextInput
-						style={{ ...styles.input, fontFamily: "RobotoRegular" }}
-						textAlign={"left"}
-						plnpx expo install react-native-screens react-native-safe-area-contextaceholder={"Password"}
-						secureTextEntry={true}
-						placeholder={"Passwo"}
-						onFocus={() => setIsShowKeyboard(true)}
-						onChangeText={setChangePassword}
-					/>
-				</View>
-				<TouchableOpacity activeOpacity={0.6} onPress={handleChangeValue}>
-					<View style={styles.button}>
-						<Text style={{ ...styles.buttonText, fontFamily: "RobotoRegular" }}>Registration</Text>
+		<Background
+			setIsShowKeyboard={setIsShowKeyboard}
+			isShowKeyboard={isShowKeyboard}>
+			<View style={styles.regContainer}>
+				<Text style={{ ...styles.title, fontFamily: "RobotoMedium" }}>
+					Registration
+				</Text>
+				<View style={styles.form}>
+					<View style={styles.inputBox}>
+						<TextInput
+							style={{ ...styles.input, fontFamily: "RobotoRegular" }}
+							textAlign={"left"}
+							placeholder={"Name"}
+							onFocus={() => setIsShowKeyboard(true)}
+							onChangeText={setChangeName}
+						/>
 					</View>
-				</TouchableOpacity>
+					<View style={styles.inputBox}>
+						<TextInput
+							style={{ ...styles.input, fontFamily: "RobotoRegular" }}
+							textAlign={"left"}
+							placeholder={"Email address"}
+							onFocus={() => setIsShowKeyboard(true)}
+							onChangeText={setChangeEmail}
+						/>
+					</View>
+					<View>
+						<TextInput
+							style={{ ...styles.input, fontFamily: "RobotoRegular" }}
+							textAlign={"left"}
+							plnpx
+							expo
+							install
+							react-native-screens
+							react-native-safe-area-contextaceholder={"Password"}
+							secureTextEntry={true}
+							placeholder={"Passwo"}
+							onFocus={() => setIsShowKeyboard(true)}
+							onChangeText={setChangePassword}
+						/>
+					</View>
+					<TouchableOpacity activeOpacity={0.6} onPress={handleChangeValue}>
+						<View style={styles.button}>
+							<Text
+								style={{ ...styles.buttonText, fontFamily: "RobotoRegular" }}>
+								Registration
+							</Text>
+						</View>
+					</TouchableOpacity>
+				</View>
+				{!isShowKeyboard && (
+					<View style={styles.changeForm}>
+						<Text
+							style={{ ...styles.text, fontFamily: "RobotoRegular" }}
+							onPress={() => navigation.navigate("Login")}>
+							Have an account? Login
+						</Text>
+					</View>
+				)}
 			</View>
-		</View>
+		</Background>
 	);
 };
 
@@ -119,5 +141,13 @@ const styles = StyleSheet.create({
 		color: "#fff",
 		fontSize: 16,
 		lineHeight: 19,
+	},
+	changeForm: {
+		alignItems: "center",
+	},
+	text: {
+		fontSize: 16,
+		lineHeight: 19,
+		color: "#1B4371",
 	},
 });
