@@ -68,7 +68,6 @@ const styles = StyleSheet.create({
 		fontSize: 30,
 		lineHeight: 35,
 		textAlign: "center",
-		letterSpacing: "0.01em",
 		color: "#212121",
 		marginBottom: 32,
 	},

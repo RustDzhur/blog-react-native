@@ -62,8 +62,9 @@ export const RegistrationScreen = ({ setIsShowKeyboard }) => {
 					<TextInput
 						style={{ ...styles.input, fontFamily: "RobotoRegular" }}
 						textAlign={"left"}
-						placeholder={"Password"}
+						plnpx expo install react-native-screens react-native-safe-area-contextaceholder={"Password"}
 						secureTextEntry={true}
+						placeholder={"Passwo"}
 						onFocus={() => setIsShowKeyboard(true)}
 						onChangeText={setChangePassword}
 					/>
@@ -86,7 +87,6 @@ const styles = StyleSheet.create({
 		fontSize: 30,
 		lineHeight: 35,
 		textAlign: "center",
-		letterSpacing: "0.01em",
 		color: "#212121",
 		marginBottom: 32,
 	},
