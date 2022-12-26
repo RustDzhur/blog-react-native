@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
 	StyleSheet,
 	View,
@@ -9,7 +8,6 @@ import {
 } from "react-native";
 
 export const Background = ({ children, isShowKeyboard, setIsShowKeyboard }) => {
-	console.log(isShowKeyboard)
 	return (
 		<View style={styles.container}>
 			<ImageBackground
