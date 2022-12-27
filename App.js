@@ -1,8 +1,8 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { useAuth } from "./hooks/useAuth";
+import { useNav } from "./navigations/useNav";
 
 export default function App() {
-	const routing = useAuth(true);
+	const routing = useNav(true);
 	return <NavigationContainer>{routing}</NavigationContainer>;
 }
 
