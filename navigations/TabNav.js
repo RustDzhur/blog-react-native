@@ -4,10 +4,13 @@ import { ProfileScreen } from "../Screens/ProfileScreen";
 import { CustomCreateTabBtn } from "../components/CustomCreateTabBtn";
 import { View, StyleSheet, Image, Text, TouchableOpacity } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { useNavigation } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
 export const TabNav = () => {
+	const navigationToMain = useNavigation('Posts');
+
 	return (
 		<Tab.Navigator
 			screenOptions={{
@@ -44,12 +47,12 @@ export const TabNav = () => {
 							{focused ? (
 								<Image
 									source={require("../assets/images/postsActive.png")}
-									style={{ width: 80, height: 80, top: "20%" }}
+									style={{ width: 40, height: 40, top: "20%" }}
 								/>
 							) : (
 								<Image
 									source={require("../assets/images/posts.png")}
-									style={{ width: 80, height: 80, top: "20%" }}
+									style={{ width: 40, height: 40, top: "20%" }}
 								/>
 							)}
 						</View>
@@ -61,7 +64,7 @@ export const TabNav = () => {
 			<Tab.Screen
 				options={{
 					headerLeft: () => (
-						<TouchableOpacity>
+						<TouchableOpacity onPress={() => navigationToMain.navigate('Posts')}>
 							<Image
 								source={require("../assets/images/goBack.png")}
 								style={{
@@ -73,22 +76,24 @@ export const TabNav = () => {
 							/>
 						</TouchableOpacity>
 					),
-					tabBarIcon: ({ focused }) => (
-						<View>
-							<Image
-								source={require("../assets/images/create.png")}
-								style={{
-									width: 30,
-									height: 30,
-									tintColor: "#fff",
-									transform: focused
-										? [{ rotate: "45deg" }]
-										: [{ rotate: "0deg" }],
-								}}
-								resizeMode="contain"
-							/>
-						</View>
-					),
+					tabBarIcon: ({ focused }) => {
+						return (
+							<View>
+								<Image
+									source={require("../assets/images/create.png")}
+									style={{
+										width: 30,
+										height: 30,
+										tintColor: "#fff",
+										transform: focused
+											? [{ rotate: "45deg" }]
+											: [{ rotate: "0deg" }],
+									}}
+									resizeMode="contain"
+								/>
+							</View>
+						);
+					},
 					tabBarButton: props => <CustomCreateTabBtn {...props} />,
 				}}
 				name="Create"
@@ -97,7 +102,7 @@ export const TabNav = () => {
 			<Tab.Screen
 				options={{
 					headerLeft: () => (
-						<TouchableOpacity>
+						<TouchableOpacity onPress={() => navigationToMain.navigate('Posts')}>
 							<Image
 								source={require("../assets/images/goBack.png")}
 								style={{
@@ -114,12 +119,12 @@ export const TabNav = () => {
 							{focused ? (
 								<Image
 									source={require("../assets/images/profileActive.png")}
-									style={{ width: 80, height: 80, top: "20%" }}
+									style={{ width: 40, height: 40, top: "20%" }}
 								/>
 							) : (
 								<Image
 									source={require("../assets/images/profile.png")}
-									style={{ width: 80, height: 80, top: "20%" }}
+									style={{ width: 40, height: 40, top: "20%" }}
 								/>
 							)}
 						</View>
