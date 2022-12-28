@@ -1,8 +1,8 @@
 import { PostScreen } from "../Screens/PostsScreen";
 import { CreatePostsScreen } from "../Screens/CreatePostsScreen";
 import { ProfileScreen } from "../Screens/ProfileScreen";
-import { CustomCreateTabBtn } from "../components/CustomeCreateTabBtn";
-import { View, StyleSheet, Image } from "react-native";
+import { CustomCreateTabBtn } from "../components/CustomCreateTabBtn";
+import { View, StyleSheet, Image, Text, TouchableOpacity } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 const Tab = createBottomTabNavigator();
@@ -26,6 +26,19 @@ export const TabNav = () => {
 			}}>
 			<Tab.Screen
 				options={{
+					headerRight: () => (
+						<TouchableOpacity>
+							<Image
+								source={require("../assets/images/logOut.png")}
+								style={{
+									width: 24,
+									height: 24,
+									marginRight: 16,
+									tintColor: "black",
+								}}
+							/>
+						</TouchableOpacity>
+					),
 					tabBarIcon: ({ focused }) => (
 						<View>
 							{focused ? (
@@ -47,6 +60,19 @@ export const TabNav = () => {
 			/>
 			<Tab.Screen
 				options={{
+					headerLeft: () => (
+						<TouchableOpacity>
+							<Image
+								source={require("../assets/images/goBack.png")}
+								style={{
+									width: 24,
+									height: 24,
+									marginLeft: 16,
+									tintColor: "black",
+								}}
+							/>
+						</TouchableOpacity>
+					),
 					tabBarIcon: ({ focused }) => (
 						<View>
 							<Image
@@ -70,6 +96,19 @@ export const TabNav = () => {
 			/>
 			<Tab.Screen
 				options={{
+					headerLeft: () => (
+						<TouchableOpacity>
+							<Image
+								source={require("../assets/images/goBack.png")}
+								style={{
+									width: 24,
+									height: 24,
+									marginLeft: 16,
+									tintColor: "black",
+								}}
+							/>
+						</TouchableOpacity>
+					),
 					tabBarIcon: ({ focused }) => (
 						<View>
 							{focused ? (
