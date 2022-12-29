@@ -1,16 +1,15 @@
 import { PostScreen } from "../Screens/PostsScreen";
 import { CreatePostsScreen } from "../Screens/CreatePostsScreen";
 import { ProfileScreen } from "../Screens/ProfileScreen";
-import { CustomCreateTabBtn } from "../components/CustomCreateTabBtn";
+import { CreateTabBtn, RemoveTabBtn } from "../components/CustomBtns";
 import { View, StyleSheet, Image, Text, TouchableOpacity } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 
 const Tab = createBottomTabNavigator();
 
 export const TabNav = () => {
-	const navigationToMain = useNavigation('Posts');
-
+	const navigation = useNavigation("Posts");
 	return (
 		<Tab.Navigator
 			screenOptions={{
@@ -64,7 +63,7 @@ export const TabNav = () => {
 			<Tab.Screen
 				options={{
 					headerLeft: () => (
-						<TouchableOpacity onPress={() => navigationToMain.navigate('Posts')}>
+						<TouchableOpacity onPress={() => navigation.navigate("Posts")}>
 							<Image
 								source={require("../assets/images/goBack.png")}
 								style={{
@@ -76,25 +75,41 @@ export const TabNav = () => {
 							/>
 						</TouchableOpacity>
 					),
-					tabBarIcon: ({ focused }) => {
-						return (
-							<View>
-								<Image
-									source={require("../assets/images/create.png")}
-									style={{
-										width: 30,
-										height: 30,
-										tintColor: "#fff",
-										transform: focused
-											? [{ rotate: "45deg" }]
-											: [{ rotate: "0deg" }],
-									}}
-									resizeMode="contain"
-								/>
-							</View>
-						);
-					},
-					tabBarButton: props => <CustomCreateTabBtn {...props} />,
+					tabBarIcon: ({ focused }) => (
+						<>
+							{!focused ? (
+								<CreateTabBtn onPress={() => navigation.navigate("Create")}>
+									<View>
+										<Image
+											source={require("../assets/images/create.png")}
+											style={{
+												top: 20,
+												left: 20,
+												width: 30,
+												height: 30,
+												tintColor: "#fff",
+											}}
+											resizeMode="contain"
+										/>
+									</View>
+								</CreateTabBtn>
+							) : (
+								<RemoveTabBtn>
+									<View>
+										<Image
+											source={require("../assets/images/trash.png")}
+											style={{
+												top: 15,
+												width: 70,
+												height: 40,
+											}}
+											resizeMode="contain"
+										/>
+									</View>
+								</RemoveTabBtn>
+							)}
+						</>
+					),
 				}}
 				name="Create"
 				component={CreatePostsScreen}
@@ -102,7 +117,7 @@ export const TabNav = () => {
 			<Tab.Screen
 				options={{
 					headerLeft: () => (
-						<TouchableOpacity onPress={() => navigationToMain.navigate('Posts')}>
+						<TouchableOpacity onPress={() => navigation.navigate("Posts")}>
 							<Image
 								source={require("../assets/images/goBack.png")}
 								style={{

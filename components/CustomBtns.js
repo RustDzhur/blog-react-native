@@ -1,6 +1,6 @@
 import { TouchableOpacity, View, StyleSheet } from "react-native";
 
-export const CustomCreateTabBtn = ({ children, onPress }) => {
+export const CreateTabBtn = ({ children, onPress }) => {
 	return (
 		<TouchableOpacity
 			style={{
@@ -16,6 +16,29 @@ export const CustomCreateTabBtn = ({ children, onPress }) => {
 					height: 70,
 					borderRadius: 35,
 					backgroundColor: "#FF6C00",
+				}}>
+				{children}
+			</View>
+		</TouchableOpacity>
+	);
+};
+
+export const RemoveTabBtn = ({ children, onPress }) => {
+	return (
+		<TouchableOpacity
+			style={{
+				top: -10,
+				justifyContent: "center",
+				alignItems: "center",
+				...styles.shadow,
+			}}
+			onPress={onPress}>
+			<View
+				style={{
+					width: 70,
+					height: 70,
+					borderRadius: 35,
+					backgroundColor: "#F6F6F6",
 				}}>
 				{children}
 			</View>
