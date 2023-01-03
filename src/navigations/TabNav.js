@@ -2,7 +2,7 @@ import { PostScreen } from "../Screens/PostsScreen";
 import { CreatePostsScreen } from "../Screens/CreatePostsScreen";
 import { ProfileScreen } from "../Screens/ProfileScreen";
 import { CreateTabBtn, RemoveTabBtn } from "../components/CustomBtns";
-import { View, StyleSheet, Image, Text, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Image, Text, TouchableOpacity, Platform } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
 
@@ -10,19 +10,26 @@ const Tab = createBottomTabNavigator();
 
 export const TabNav = () => {
 	const navigation = useNavigation("Posts");
+	
+
 	return (
 		<Tab.Navigator
 			screenOptions={{
 				tabBarShowLabel: false,
 				tabBarStyle: {
-					position: "absolute",
-					bottom: 25,
-					left: 20,
-					right: 20,
 					elevation: 0,
 					borderRadius: 15,
 					backgroundColor: "#fff",
-					height: 83,
+					...Platform.select ({
+					    android: {
+					        height: 65,
+					        bottom: 0,
+					    },
+					    ios: {
+					        height: 83,
+					        bottom: 25,
+					    },
+					}),
 					...styles.shadow,
 				},
 			}}>

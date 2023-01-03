@@ -5,20 +5,22 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 	TextInput,
+	ScrollView,
 } from "react-native";
-import { useState, useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
+import { useState, useEffect, useRef } from "react";
 import { useFonts } from "expo-font";
-import { Camera, CameraType } from "expo-camera";
+import { Camera } from "expo-camera";
 
-export const CreatePostsScreen = () => {
-	const [snap, setSnap] = useState(null);
+export const CreatePostsScreen = ({ navigation }) => {
 	const [hasPermission, setHasPermission] = useState(null);
 	const [photo, setPhoto] = useState("");
+	const [isCameraReady, setIsCameraReady] = useState(false);
+	const [placeName, setPlaceName] = useState("");
+	const [localization, setLocalization] = useState("");
+	const cameraRef = useRef();
 
-	const getPhoto = async () => {
-		const photo = await camera.takePictureAsync();
-		setPhoto(camera.uri);
-	};
+	// console.log(photo);
 
 	useEffect(() => {
 		(async () => {
@@ -27,8 +29,29 @@ export const CreatePostsScreen = () => {
 		})();
 	}, []);
 
+	const onCameraReady = () => {
+		setIsCameraReady(true);
+	};
+
+	const getPhoto = async () => {
+		if (cameraRef.current) {
+			const data = await cameraRef.current.takePictureAsync();
+			setPhoto(data.uri);
+		}
+	};
+
+	const publishPhoto = () => {
+		const post = {
+			id: uuidv4(),
+			photo,
+			placeName,
+			localization,
+		};
+		navigation.navigate("Posts", post);
+	};
+
 	if (hasPermission === false) {
-		return <Text>No access to camera</Text>;
+		return <Text style={styles.text}>No access to camera</Text>;
 	}
 
 	const [loaded] = useFonts({
@@ -39,12 +62,18 @@ export const CreatePostsScreen = () => {
 	if (!loaded) {
 		return null;
 	}
+
+	const createNewPost = localization === "" || placeName === "" || photo === "";
+
 	return (
-		<View style={styles.container}>
-			<Camera style={styles.camera} ref={setSnap}>
+		<ScrollView style={styles.container}>
+			<Camera
+				style={styles.camera}
+				ref={cameraRef}
+				onCameraReady={onCameraReady}>
 				{photo && (
 					<View style={styles.takeSnapShot}>
-						<Image source={{ uri: photo }} style={{ height: 50, width: 50 }} />
+						<Image source={{ uri: photo }} style={{ height: 80, width: 80 }} />
 					</View>
 				)}
 				<TouchableOpacity onPress={getPhoto}>
@@ -62,7 +91,7 @@ export const CreatePostsScreen = () => {
 					placeholder={"Place name..."}
 					placeholderTextColor="#BDBDBD"
 					// onFocus={() => setIsShowKeyboard(true)}
-					// onChangeText={setChangeEmail}
+					onChangeText={setPlaceName}
 				/>
 			</View>
 			<View style={{ ...styles.inputWrapper, marginBottom: 32 }}>
@@ -72,31 +101,37 @@ export const CreatePostsScreen = () => {
 					placeholder={"Locality"}
 					placeholderTextColor="#BDBDBD"
 					// onFocus={() => setIsShowKeyboard(true)}
-					// onChangeText={setChangeEmail}
+					onChangeText={setLocalization}
 				/>
 				<Image
 					source={require("../../assets/images/localization.png")}
 					style={styles.localizationIcon}
 				/>
 			</View>
-			<TouchableOpacity activeOpacity={0.6}>
-				<View style={styles.button}>
-					<Text style={{ ...styles.buttonText, fontFamily: "RobotoRegular" }}>
+			<TouchableOpacity
+				activeOpacity={0.6}
+				disabled={createNewPost}
+				onPress={publishPhoto}>
+				<View style={createNewPost ? styles.button : styles.activeButton}>
+					<Text
+						style={
+							createNewPost
+								? { ...styles.buttonText, fontFamily: "RobotoRegular" }
+								: { ...styles.activeButtonText, fontFamily: "RobotoRegular" }
+						}>
 						Publish
 					</Text>
 				</View>
 			</TouchableOpacity>
-		</View>
+		</ScrollView>
 	);
 };
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		paddingHorizontal: 16,
 	},
 	camera: {
 		height: 343,
-		marginTop: 32,
 		justifyContent: "center",
 		alignItems: "center",
 		backgroundColor: "#DEDEDE",
@@ -108,11 +143,13 @@ const styles = StyleSheet.create({
 		height: 60,
 	},
 	uploadBtn: {
+		marginHorizontal: 16,
 		fontSize: 16,
 		color: "#BDBDBD",
 		marginBottom: 32,
 	},
 	inputWrapper: {
+		marginHorizontal: 16,
 		borderBottomColor: "#E8E8E8",
 		borderBottomWidth: 1,
 		flexDirection: "row-reverse",
@@ -128,7 +165,14 @@ const styles = StyleSheet.create({
 		height: 24,
 	},
 	button: {
+		marginHorizontal: 16,
 		backgroundColor: "#DEDEDE",
+		borderRadius: 100,
+		alignItems: "center",
+	},
+	activeButton: {
+		marginHorizontal: 16,
+		backgroundColor: "#FF6C00",
 		borderRadius: 100,
 		alignItems: "center",
 	},
@@ -136,6 +180,11 @@ const styles = StyleSheet.create({
 		paddingVertical: 16,
 		fontSize: 16,
 		color: "#BDBDBD",
+	},
+	activeButtonText: {
+		paddingVertical: 16,
+		fontSize: 16,
+		color: "#fff",
 	},
 	takeSnapShot: {
 		position: "absolute",
