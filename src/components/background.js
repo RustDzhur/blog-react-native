@@ -11,7 +11,7 @@ export const Background = ({ children, isShowKeyboard, setIsShowKeyboard }) => {
 	return (
 		<View style={styles.container}>
 			<ImageBackground
-				source={require("../assets/images/bg.jpg")}
+				source={require("../../assets/images/bg.jpg")}
 				style={styles.bg}>
 				<KeyboardAvoidingView
 					behavior={Platform.OS === "ios" ? "padding" : "height"}>

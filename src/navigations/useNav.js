@@ -1,3 +1,4 @@
+
 import { AuthNav } from "./AuthNav";
 import { TabNav } from "./TabNav";
 
@@ -7,5 +8,3 @@ export const useNav = (isAuth) => {
 	}
 	return <TabNav />;
 };
-
-

@@ -31,7 +31,7 @@ export const TabNav = () => {
 					headerRight: () => (
 						<TouchableOpacity>
 							<Image
-								source={require("../assets/images/logOut.png")}
+								source={require("../../assets/images/logOut.png")}
 								style={{
 									width: 24,
 									height: 24,
@@ -45,12 +45,12 @@ export const TabNav = () => {
 						<View>
 							{focused ? (
 								<Image
-									source={require("../assets/images/postsActive.png")}
+									source={require("../../assets/images/postsActive.png")}
 									style={{ width: 40, height: 40, top: "20%" }}
 								/>
 							) : (
 								<Image
-									source={require("../assets/images/posts.png")}
+									source={require("../../assets/images/posts.png")}
 									style={{ width: 40, height: 40, top: "20%" }}
 								/>
 							)}
@@ -65,7 +65,7 @@ export const TabNav = () => {
 					headerLeft: () => (
 						<TouchableOpacity onPress={() => navigation.navigate("Posts")}>
 							<Image
-								source={require("../assets/images/goBack.png")}
+								source={require("../../assets/images/goBack.png")}
 								style={{
 									width: 24,
 									height: 24,
@@ -81,7 +81,7 @@ export const TabNav = () => {
 								<CreateTabBtn onPress={() => navigation.navigate("Create")}>
 									<View>
 										<Image
-											source={require("../assets/images/create.png")}
+											source={require("../../assets/images/create.png")}
 											style={{
 												top: 20,
 												left: 20,
@@ -97,7 +97,7 @@ export const TabNav = () => {
 								<RemoveTabBtn>
 									<View>
 										<Image
-											source={require("../assets/images/trash.png")}
+											source={require("../../assets/images/trash.png")}
 											style={{
 												top: 15,
 												width: 70,
@@ -119,7 +119,7 @@ export const TabNav = () => {
 					headerLeft: () => (
 						<TouchableOpacity onPress={() => navigation.navigate("Posts")}>
 							<Image
-								source={require("../assets/images/goBack.png")}
+								source={require("../../assets/images/goBack.png")}
 								style={{
 									width: 24,
 									height: 24,
@@ -133,12 +133,12 @@ export const TabNav = () => {
 						<View>
 							{focused ? (
 								<Image
-									source={require("../assets/images/profileActive.png")}
+									source={require("../../assets/images/profileActive.png")}
 									style={{ width: 40, height: 40, top: "20%" }}
 								/>
 							) : (
 								<Image
-									source={require("../assets/images/profile.png")}
+									source={require("../../assets/images/profile.png")}
 									style={{ width: 40, height: 40, top: "20%" }}
 								/>
 							)}
