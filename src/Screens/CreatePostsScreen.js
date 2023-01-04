@@ -11,6 +11,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useState, useEffect, useRef } from "react";
 import { useFonts } from "expo-font";
 import { Camera } from "expo-camera";
+import 'react-native-get-random-values'
 
 export const CreatePostsScreen = ({ navigation }) => {
 	const [hasPermission, setHasPermission] = useState(null);
