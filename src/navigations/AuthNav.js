@@ -1,7 +1,7 @@
-import { LoginScreen } from "../Screens/LoginScreen";
+import { LoginScreen } from "../screens/mainScreens/LoginScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { RegistrationScreen } from "../Screens/RegistrationScreen";
-import { CreatePostsScreen } from "../Screens/CreatePostsScreen";
+import { RegistrationScreen } from "../screens/mainScreens/RegistrationScreen";
+
 const AuthStack = createNativeStackNavigator();
 
 export const AuthNav = () => {
@@ -16,11 +16,6 @@ export const AuthNav = () => {
 				options={{ headerShown: false }}
 				name="Register"
 				component={RegistrationScreen}
-			/>
-			<AuthStack.Screen
-				options={{ headerShown: true }}
-				name="Create"
-				component={CreatePostsScreen}
 			/>
 		</AuthStack.Navigator>
 	);

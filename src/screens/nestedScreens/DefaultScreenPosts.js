@@ -4,12 +4,12 @@ import {
 	StyleSheet,
 	Image,
 	FlatList,
-	ScrollView,
+	TouchableOpacity,
 } from "react-native";
 import { useFonts } from "expo-font";
 import { useEffect, useState } from "react";
 
-export const PostScreen = ({ route }) => {
+export const DefaultScreenPosts = ({ route, navigation }) => {
 	const [posts, setPosts] = useState([]);
 
 	useEffect(() => {
@@ -19,8 +19,8 @@ export const PostScreen = ({ route }) => {
 	}, [route.params]);
 
 	const [loaded] = useFonts({
-		RobotoRegular: require("../../assets/fonts/Roboto-Regular.ttf"),
-		RobotoMedium: require("../../assets/fonts/Roboto-Medium.ttf"),
+		RobotoRegular: require("../../../assets/fonts/Roboto-Regular.ttf"),
+		RobotoMedium: require("../../../assets/fonts/Roboto-Medium.ttf"),
 	});
 
 	if (!loaded) {
@@ -31,7 +31,7 @@ export const PostScreen = ({ route }) => {
 		<View style={styles.container}>
 			<View style={styles.userContainer}>
 				<Image
-					source={require("../../assets/images/user.png")}
+					source={require("../../../assets/images/user.png")}
 					style={styles.userImage}
 				/>
 				<View>
@@ -59,21 +59,34 @@ export const PostScreen = ({ route }) => {
 							</View>
 
 							<View style={styles.locationCommentContainer}>
-								<View style={styles.commentContainer}>
+              <TouchableOpacity onPress={() => navigation.navigate('Posts', {screen: 'CommentsScreen'})}>
+              <View style={styles.commentContainer}>
 									<Image
-										source={require("../../assets/images/comment.png")}
+										source={require("../../../assets/images/comment.png")}
 										style={styles.commentLogo}
 									/>
 									<Text style={styles.commentAmount}>0</Text>
 								</View>
+              </TouchableOpacity>
 
-								<View style={styles.location}>
-									<Image
-										source={require("../../assets/images/localization.png")}
-										style={{ width: 24, height: 24, marginRight: 4 }}
-									/>
-									<Text style={{...styles.locationText, fontFamily: 'RobotoRegular'}}>{item.localization}</Text>
-								</View>
+								<TouchableOpacity
+									onPress={() =>
+										navigation.navigate('Posts', { screen: "MapScreen" })
+									}>
+									<View style={styles.location}>
+										<Image
+											source={require("../../../assets/images/localization.png")}
+											style={{ width: 24, height: 24, marginRight: 4 }}
+										/>
+										<Text
+											style={{
+												...styles.locationText,
+												fontFamily: "RobotoRegular",
+											}}>
+											{item.localization}
+										</Text>
+									</View>
+								</TouchableOpacity>
 							</View>
 						</View>
 					)}
@@ -138,13 +151,13 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		color: "#BDBDBD",
 	},
-    location: {
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    locationText: {
-        fontSize: 16,
-        textDecorationLine: 'underline',
-        color: '#212121',
-    },
+	location: {
+		flexDirection: "row",
+		alignItems: "center",
+	},
+	locationText: {
+		fontSize: 16,
+		textDecorationLine: "underline",
+		color: "#212121",
+	},
 });

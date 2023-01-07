@@ -1,8 +1,8 @@
-import { PostScreen } from "../Screens/PostsScreen";
-import { CreatePostsScreen } from "../Screens/CreatePostsScreen";
-import { ProfileScreen } from "../Screens/ProfileScreen";
+import { PostsScreen } from "../screens/mainScreens/PostsScreen";
+import { CreatePostsScreen } from "../screens/mainScreens/CreatePostsScreen";
+import { ProfileScreen } from "../screens/mainScreens/ProfileScreen";
 import { CreateTabBtn, RemoveTabBtn } from "../components/CustomBtns";
-import { View, StyleSheet, Image, Text, TouchableOpacity, Platform } from "react-native";
+import { View, StyleSheet, Image, TouchableOpacity, Platform } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
 
@@ -65,7 +65,7 @@ export const TabNav = () => {
 					),
 				}}
 				name="Posts"
-				component={PostScreen}
+				component={PostsScreen}
 			/>
 			<Tab.Screen
 				options={{

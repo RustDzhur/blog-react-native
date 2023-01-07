@@ -7,16 +7,17 @@ import {
 	TextInput,
 	TouchableOpacity,
 } from "react-native";
-import { Background } from "../components/background";
+import { Background } from "../../components/background";
 
-export const LoginScreen = ({ navigation }) => {
+export const RegistrationScreen = ({ navigation }) => {
+	const [changeName, setChangeName] = useState("");
 	const [changeEmail, setChangeEmail] = useState("");
 	const [changePassword, setChangePassword] = useState("");
 	const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
 	const [loaded] = useFonts({
-		RobotoRegular: require("../../assets/fonts/Roboto-Regular.ttf"),
-		RobotoMedium: require("../../assets/fonts/Roboto-Medium.ttf"),
+		RobotoRegular: require("../../../assets/fonts/Roboto-Regular.ttf"),
+		RobotoMedium: require("../../../assets/fonts/Roboto-Medium.ttf"),
 	});
 
 	if (!loaded) {
@@ -24,18 +25,35 @@ export const LoginScreen = ({ navigation }) => {
 	}
 
 	const handleChangeValue = () => {
-		console.log("Email: " + changeEmail + "\n" + "Password: " + changePassword);
+		console.log(
+			"Name: " +
+				changeName +
+				"\n" +
+				"Email: " +
+				changeEmail +
+				"\n" +
+				"Password: " +
+				changePassword
+		);
 	};
-
 	return (
 		<Background
 			setIsShowKeyboard={setIsShowKeyboard}
 			isShowKeyboard={isShowKeyboard}>
 			<View style={styles.regContainer}>
 				<Text style={{ ...styles.title, fontFamily: "RobotoMedium" }}>
-					Login
+					Registration
 				</Text>
 				<View style={styles.form}>
+					<View style={styles.inputBox}>
+						<TextInput
+							style={{ ...styles.input, fontFamily: "RobotoRegular" }}
+							textAlign={"left"}
+							placeholder={"Name"}
+							onFocus={() => setIsShowKeyboard(true)}
+							onChangeText={setChangeName}
+						/>
+					</View>
 					<View style={styles.inputBox}>
 						<TextInput
 							style={{ ...styles.input, fontFamily: "RobotoRegular" }}
@@ -49,8 +67,13 @@ export const LoginScreen = ({ navigation }) => {
 						<TextInput
 							style={{ ...styles.input, fontFamily: "RobotoRegular" }}
 							textAlign={"left"}
-							placeholder={"Password"}
+							plnpx
+							expo
+							install
+							react-native-screens
+							react-native-safe-area-contextaceholder={"Password"}
 							secureTextEntry={true}
+							placeholder={"Passwo"}
 							onFocus={() => setIsShowKeyboard(true)}
 							onChangeText={setChangePassword}
 						/>
@@ -59,7 +82,7 @@ export const LoginScreen = ({ navigation }) => {
 						<View style={styles.button}>
 							<Text
 								style={{ ...styles.buttonText, fontFamily: "RobotoRegular" }}>
-								Login
+								Registration
 							</Text>
 						</View>
 					</TouchableOpacity>
@@ -68,8 +91,8 @@ export const LoginScreen = ({ navigation }) => {
 					<View style={styles.changeForm}>
 						<Text
 							style={{ ...styles.text, fontFamily: "RobotoRegular" }}
-							onPress={() => navigation.navigate("Register")}>
-							Don't have an account? Register
+							onPress={() => navigation.navigate("Login")}>
+							Have an account? Login
 						</Text>
 					</View>
 				)}
@@ -83,7 +106,6 @@ const styles = StyleSheet.create({
 		width: "100%",
 	},
 	title: {
-		fontWeight: "500",
 		fontSize: 30,
 		lineHeight: 35,
 		textAlign: "center",
@@ -102,6 +124,7 @@ const styles = StyleSheet.create({
 		paddingLeft: 15,
 		paddingRight: 15,
 		fontSize: 16,
+		lineHeight: 19,
 	},
 	inputBox: {
 		marginBottom: 16,

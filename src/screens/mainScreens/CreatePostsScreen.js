@@ -11,7 +11,8 @@ import { v4 as uuidv4 } from "uuid";
 import { useState, useEffect, useRef } from "react";
 import { useFonts } from "expo-font";
 import { Camera } from "expo-camera";
-import 'react-native-get-random-values'
+import 'react-native-get-random-values';
+import * as Location from 'expo-location';
 
 export const CreatePostsScreen = ({ navigation }) => {
 	const [hasPermission, setHasPermission] = useState(null);
@@ -19,15 +20,24 @@ export const CreatePostsScreen = ({ navigation }) => {
 	const [isCameraReady, setIsCameraReady] = useState(false);
 	const [placeName, setPlaceName] = useState("");
 	const [localization, setLocalization] = useState("");
+	const [location, setLocation] = useState(null);
+	const [errorMsg, setErrorMsg] = useState(null);
 	const cameraRef = useRef();
 
-	// console.log(photo);
+console.log(location)
 
 	useEffect(() => {
 		(async () => {
 			const { status } = await Camera.requestCameraPermissionsAsync();
 			setHasPermission(status === "granted");
 		})();
+		(async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+    })();
 	}, []);
 
 	const onCameraReady = () => {
@@ -39,6 +49,8 @@ export const CreatePostsScreen = ({ navigation }) => {
 			const data = await cameraRef.current.takePictureAsync();
 			setPhoto(data.uri);
 		}
+		let location = await Location.getCurrentPositionAsync({});
+		setLocation(location);
 	};
 
 	const publishPhoto = () => {
@@ -48,7 +60,7 @@ export const CreatePostsScreen = ({ navigation }) => {
 			placeName,
 			localization,
 		};
-		navigation.navigate("Posts", post);
+		navigation.navigate("Posts", {screen: 'DefaultScreen', params: post});
 	};
 
 	if (hasPermission === false) {
@@ -56,8 +68,8 @@ export const CreatePostsScreen = ({ navigation }) => {
 	}
 
 	const [loaded] = useFonts({
-		RobotoRegular: require("../../assets/fonts/Roboto-Regular.ttf"),
-		RobotoMedium: require("../../assets/fonts/Roboto-Medium.ttf"),
+		RobotoRegular: require("../../../assets/fonts/Roboto-Regular.ttf"),
+		RobotoMedium: require("../../../assets/fonts/Roboto-Medium.ttf"),
 	});
 
 	if (!loaded) {
@@ -65,6 +77,13 @@ export const CreatePostsScreen = ({ navigation }) => {
 	}
 
 	const createNewPost = localization === "" || placeName === "" || photo === "";
+
+  let localPosition = 'Waiting..';
+  if (errorMsg) {
+    localPosition = errorMsg;
+  } else if (location) {
+    localPosition = `${location.coords.latitude}, ${location.coords.longitude}`;
+  }
 
 	return (
 		<ScrollView style={styles.container}>
@@ -79,7 +98,7 @@ export const CreatePostsScreen = ({ navigation }) => {
 				)}
 				<TouchableOpacity onPress={getPhoto}>
 					<Image
-						source={require("../../assets/images/makesnap.png")}
+						source={require("../../../assets/images/makesnap.png")}
 						style={styles.snapShot}
 					/>
 				</TouchableOpacity>
@@ -103,9 +122,10 @@ export const CreatePostsScreen = ({ navigation }) => {
 					placeholderTextColor="#BDBDBD"
 					// onFocus={() => setIsShowKeyboard(true)}
 					onChangeText={setLocalization}
+					value={localPosition}
 				/>
 				<Image
-					source={require("../../assets/images/localization.png")}
+					source={require("../../../assets/images/localization.png")}
 					style={styles.localizationIcon}
 				/>
 			</View>
