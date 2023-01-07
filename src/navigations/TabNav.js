@@ -10,9 +10,7 @@ const Tab = createBottomTabNavigator();
 
 export const TabNav = () => {
 	const navigation = useNavigation("Posts");
-	
-
-	return (
+		return (
 		<Tab.Navigator
 			screenOptions={{
 				tabBarShowLabel: false,

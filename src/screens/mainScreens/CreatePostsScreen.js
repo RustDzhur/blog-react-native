@@ -24,8 +24,6 @@ export const CreatePostsScreen = ({ navigation }) => {
 	const [errorMsg, setErrorMsg] = useState(null);
 	const cameraRef = useRef();
 
-console.log(location)
-
 	useEffect(() => {
 		(async () => {
 			const { status } = await Camera.requestCameraPermissionsAsync();

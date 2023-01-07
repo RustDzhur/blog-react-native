@@ -6,14 +6,18 @@ import {
 	View,
 	TextInput,
 	TouchableOpacity,
+	Keyboard,
 } from "react-native";
 import { Background } from "../../components/background";
+import { createNewUser } from "../../redux/auth/authOperations";
+import { useDispatch } from "react-redux";
 
 export const RegistrationScreen = ({ navigation }) => {
 	const [changeName, setChangeName] = useState("");
 	const [changeEmail, setChangeEmail] = useState("");
 	const [changePassword, setChangePassword] = useState("");
 	const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+	const dispatch = useDispatch();
 
 	const [loaded] = useFonts({
 		RobotoRegular: require("../../../assets/fonts/Roboto-Regular.ttf"),
@@ -25,17 +29,16 @@ export const RegistrationScreen = ({ navigation }) => {
 	}
 
 	const handleChangeValue = () => {
-		console.log(
-			"Name: " +
-				changeName +
-				"\n" +
-				"Email: " +
-				changeEmail +
-				"\n" +
-				"Password: " +
-				changePassword
-		);
+		const signtUpFormData = {
+			changeName,
+			changePassword,
+			changeEmail,
+		};
+		dispatch(createNewUser(signtUpFormData));
+		Keyboard.dismiss();
+		setIsShowKeyboard(false)
 	};
+
 	return (
 		<Background
 			setIsShowKeyboard={setIsShowKeyboard}

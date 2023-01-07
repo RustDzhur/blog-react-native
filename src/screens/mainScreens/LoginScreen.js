@@ -6,13 +6,17 @@ import {
 	View,
 	TextInput,
 	TouchableOpacity,
+	Keyboard,
 } from "react-native";
 import { Background } from "../../components/background";
+import { signIn } from "../../redux/auth/authOperations";
+import { useDispatch } from "react-redux";
 
 export const LoginScreen = ({ navigation }) => {
 	const [changeEmail, setChangeEmail] = useState("");
 	const [changePassword, setChangePassword] = useState("");
 	const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+	const dispatch = useDispatch();
 
 	const [loaded] = useFonts({
 		RobotoRegular: require("../../../assets/fonts/Roboto-Regular.ttf"),
@@ -24,7 +28,9 @@ export const LoginScreen = ({ navigation }) => {
 	}
 
 	const handleChangeValue = () => {
-		console.log("Email: " + changeEmail + "\n" + "Password: " + changePassword);
+		dispatch(signIn({ changeEmail, changePassword }));
+		Keyboard.dismiss();
+		setIsShowKeyboard(false);
 	};
 
 	return (
