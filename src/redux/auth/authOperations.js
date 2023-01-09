@@ -1,6 +1,7 @@
 import { authFirebase } from "../../firebase/config";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword  } from "firebase/auth";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import Toast from 'react-native-root-toast';
 
 export const createNewUser = createAsyncThunk(
 	"user/createNewUser",
@@ -10,12 +11,19 @@ export const createNewUser = createAsyncThunk(
 			.then(userCredential => {
 				// Signed in
 				const user = userCredential.user;
-				console.log(user);
+        Toast.show('Succsess register', {
+          duration: 500,
+          position: 50,
+        });
+        return user
 			})
 			.catch(error => {
 				const errorCode = error.code;
 				const errorMessage = error.message;
-				// ..
+        Toast.show(errorMessage, {
+          duration: 500,
+          position: 50,
+        });
 			});
     } catch (error) {
       thunkAPI.rejectWithValue(error.message)
@@ -32,12 +40,19 @@ export const signIn = createAsyncThunk (
 			.then(userCredential => {
 				// Signed in
 				const user = userCredential.user;
-				console.log(user);
+        Toast.show('Succsess signin', {
+          duration: 500,
+          position: 50,
+        });
+        return user
 			})
 			.catch(error => {
 				const errorCode = error.code;
 				const errorMessage = error.message;
-				// ..
+        Toast.show(errorMessage, {
+          duration: 500,
+          position: 50,
+        });
 			});
     } catch (error) {
       thunkAPI.rejectWithValue(error.message)

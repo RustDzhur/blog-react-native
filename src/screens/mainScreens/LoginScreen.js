@@ -31,6 +31,8 @@ export const LoginScreen = ({ navigation }) => {
 		dispatch(signIn({ changeEmail, changePassword }));
 		Keyboard.dismiss();
 		setIsShowKeyboard(false);
+		setChangeEmail('')
+		setChangePassword('')
 	};
 
 	return (
@@ -48,7 +50,8 @@ export const LoginScreen = ({ navigation }) => {
 							textAlign={"left"}
 							placeholder={"Email address"}
 							onFocus={() => setIsShowKeyboard(true)}
-							onChangeText={setChangeEmail}
+							onChangeText={(value) => setChangeEmail(value)}
+							value={changeEmail}
 						/>
 					</View>
 					<View>
@@ -58,7 +61,8 @@ export const LoginScreen = ({ navigation }) => {
 							placeholder={"Password"}
 							secureTextEntry={true}
 							onFocus={() => setIsShowKeyboard(true)}
-							onChangeText={setChangePassword}
+							onChangeText={(value) => setChangePassword(value)}
+							value={changePassword}
 						/>
 					</View>
 					<TouchableOpacity activeOpacity={0.6} onPress={handleChangeValue}>

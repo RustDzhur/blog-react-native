@@ -36,7 +36,10 @@ export const RegistrationScreen = ({ navigation }) => {
 		};
 		dispatch(createNewUser(signtUpFormData));
 		Keyboard.dismiss();
-		setIsShowKeyboard(false)
+		setIsShowKeyboard(false);
+		setChangeName("");
+		setChangeEmail("");
+		setChangePassword("");
 	};
 
 	return (
@@ -54,7 +57,10 @@ export const RegistrationScreen = ({ navigation }) => {
 							textAlign={"left"}
 							placeholder={"Name"}
 							onFocus={() => setIsShowKeyboard(true)}
-							onChangeText={setChangeName}
+							onChangeText={value => {
+								setChangeName(value);
+							}}
+							value={changeName}
 						/>
 					</View>
 					<View style={styles.inputBox}>
@@ -63,7 +69,10 @@ export const RegistrationScreen = ({ navigation }) => {
 							textAlign={"left"}
 							placeholder={"Email address"}
 							onFocus={() => setIsShowKeyboard(true)}
-							onChangeText={setChangeEmail}
+							onChangeText={value => {
+								setChangeEmail(value);
+							}}
+							value={changeEmail}
 						/>
 					</View>
 					<View>
@@ -76,9 +85,12 @@ export const RegistrationScreen = ({ navigation }) => {
 							react-native-screens
 							react-native-safe-area-contextaceholder={"Password"}
 							secureTextEntry={true}
-							placeholder={"Passwo"}
+							placeholder={"Password"}
 							onFocus={() => setIsShowKeyboard(true)}
-							onChangeText={setChangePassword}
+							onChangeText={value => {
+								setChangePassword(value);
+							}}
+							value={changePassword}
 						/>
 					</View>
 					<TouchableOpacity activeOpacity={0.6} onPress={handleChangeValue}>

@@ -2,15 +2,44 @@ import { PostsScreen } from "../screens/mainScreens/PostsScreen";
 import { CreatePostsScreen } from "../screens/mainScreens/CreatePostsScreen";
 import { ProfileScreen } from "../screens/mainScreens/ProfileScreen";
 import { CreateTabBtn, RemoveTabBtn } from "../components/CustomBtns";
-import { View, StyleSheet, Image, TouchableOpacity, Platform } from "react-native";
+import {
+	View,
+	StyleSheet,
+	Image,
+	TouchableOpacity,
+	Platform,
+} from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
+import { signOut } from "firebase/auth";
+import { authFirebase } from "../firebase/config";
+import Toast from 'react-native-root-toast';
+
 
 const Tab = createBottomTabNavigator();
 
 export const TabNav = () => {
 	const navigation = useNavigation("Posts");
-		return (
+
+	const logOut = () => {
+		signOut(authFirebase)
+			.then(() => {
+				Toast.show('Sign-out successful', {
+          duration: 500,
+          position: 50,
+        });
+				// Sign-out successful.
+			})
+			.catch(error => {
+				Toast.show('An error happened', {
+          duration: 500,
+          position: 50,
+        });
+				// An error happened.
+			});
+	};
+
+	return (
 		<Tab.Navigator
 			screenOptions={{
 				tabBarShowLabel: false,
@@ -18,15 +47,15 @@ export const TabNav = () => {
 					elevation: 0,
 					borderRadius: 15,
 					backgroundColor: "#fff",
-					...Platform.select ({
-					    android: {
-					        height: 65,
-					        bottom: 0,
-					    },
-					    ios: {
-					        height: 83,
-					        bottom: 25,
-					    },
+					...Platform.select({
+						android: {
+							height: 65,
+							bottom: 0,
+						},
+						ios: {
+							height: 83,
+							bottom: 25,
+						},
 					}),
 					...styles.shadow,
 				},
@@ -34,7 +63,7 @@ export const TabNav = () => {
 			<Tab.Screen
 				options={{
 					headerRight: () => (
-						<TouchableOpacity>
+						<TouchableOpacity onPress={logOut}>
 							<Image
 								source={require("../../assets/images/logOut.png")}
 								style={{
