@@ -8,7 +8,7 @@ import {
 	TouchableOpacity,
 	Keyboard,
 } from "react-native";
-import { Background } from "../../components/background";
+import { Background } from "../../components/Background";
 import { createNewUser } from "../../redux/auth/authOperations";
 import { useDispatch } from "react-redux";
 

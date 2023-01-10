@@ -6,17 +6,18 @@ export const authSlice = createSlice({
 	initialState: {
 		userId: null,
 		userName: null,
-		isAuth: false,
 	},
 	extraReducers: builder => {
 		builder
-			.addCase(signIn.fulfilled, (state, action) => {
-        console.log(action.payload)
-				state.isAuth = true;
-			})
-			.addCase(createNewUser.fulfilled, (state, action) => {
-        console.log(action.payload)
-				state.isAuth = true;
-			});
+			.addCase(signIn.fulfilled, (state, action) => ({
+				...state,
+				userId: action.payload.uid,
+			}))
+			.addCase(createNewUser.fulfilled, (state, action) => ({
+				...state,
+				userId: action.payload.uid,
+				userName: action.payload.displayName,
+			}))
+
 	},
 });
