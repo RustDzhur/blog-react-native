@@ -1,6 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -11,7 +13,8 @@ const firebaseConfig = {
   projectId: "blog-react-native-4c118",
   storageBucket: "blog-react-native-4c118.appspot.com",
   messagingSenderId: "1031413706347",
-  appId: "1:1031413706347:web:19ffff1c3d867164a80b2e"
+  appId: "1:1031413706347:web:19ffff1c3d867164a80b2e",
+  // storageBucket: 'gs://blog-react-native-4c118.appspot.com',
 };
 
 // Initialize Firebase
@@ -19,3 +22,5 @@ const app = initializeApp(firebaseConfig);
 
 // Initialize Firebase Authentication and get a reference to the service
 export const authFirebase = getAuth(app);
+export const db = getFirestore(app);
+export const storage = getStorage(app);

@@ -11,33 +11,13 @@ import {
 } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
-import { signOut } from "firebase/auth";
-import { authFirebase } from "../firebase/config";
-import Toast from 'react-native-root-toast';
+import { LogOut } from "../components/LogOutUser";
 
 
 const Tab = createBottomTabNavigator();
 
 export const TabNav = () => {
 	const navigation = useNavigation("Posts");
-
-	const logOut = () => {
-		signOut(authFirebase)
-			.then(() => {
-				Toast.show('Sign-out successful', {
-          duration: 500,
-          position: 50,
-        });
-				// Sign-out successful.
-			})
-			.catch(error => {
-				Toast.show('An error happened', {
-          duration: 500,
-          position: 50,
-        });
-				// An error happened.
-			});
-	};
 
 	return (
 		<Tab.Navigator
@@ -63,7 +43,7 @@ export const TabNav = () => {
 			<Tab.Screen
 				options={{
 					headerRight: () => (
-						<TouchableOpacity onPress={logOut}>
+						<TouchableOpacity onPress={LogOut}>
 							<Image
 								source={require("../../assets/images/logOut.png")}
 								style={{

@@ -11,12 +11,15 @@ import { v4 as uuidv4 } from "uuid";
 import { useState, useEffect, useRef } from "react";
 import { useFonts } from "expo-font";
 import { Camera } from "expo-camera";
-import 'react-native-get-random-values';
-import * as Location from 'expo-location';
+import "react-native-get-random-values";
+import * as Location from "expo-location";
+import { ref, uploadBytes, getDownloadURL, updateMetadata } from "firebase/storage";
+import { storage } from "../../firebase/config";
 
 export const CreatePostsScreen = ({ navigation }) => {
 	const [hasPermission, setHasPermission] = useState(null);
 	const [photo, setPhoto] = useState("");
+	const [photoURL, setPhotoURL] = useState('')
 	const [isCameraReady, setIsCameraReady] = useState(false);
 	const [placeName, setPlaceName] = useState("");
 	const [localization, setLocalization] = useState("");
@@ -24,18 +27,38 @@ export const CreatePostsScreen = ({ navigation }) => {
 	const [errorMsg, setErrorMsg] = useState(null);
 	const cameraRef = useRef();
 
+	const uploadPhotoToServer = async () => {
+		//! Решить этот момент
+		const newMetadata = {
+			type: 'image/jpeg'
+		};
+		const uniqPostId = Date.now().toString()
+		const storageRef = ref(storage, `postImage/${uniqPostId}/${photo}`);
+		await uploadBytes(storageRef, newMetadata).then(snapshot => {
+			console.log("Uploaded", snapshot);
+		});
+
+		await getDownloadURL(ref(storage, `postImage/${uniqPostId}/${photo}`))
+			.then(url => {
+				setPhotoURL(url)
+			})
+			.catch(error => {
+				console.log(error)
+			});
+	};
+
 	useEffect(() => {
 		(async () => {
 			const { status } = await Camera.requestCameraPermissionsAsync();
 			setHasPermission(status === "granted");
 		})();
 		(async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
-        return;
-      }
-    })();
+			let { status } = await Location.requestForegroundPermissionsAsync();
+			if (status !== "granted") {
+				setErrorMsg("Permission to access location was denied");
+				return;
+			}
+		})();
 	}, []);
 
 	const onCameraReady = () => {
@@ -46,19 +69,20 @@ export const CreatePostsScreen = ({ navigation }) => {
 		if (cameraRef.current) {
 			const data = await cameraRef.current.takePictureAsync();
 			setPhoto(data.uri);
+			uploadPhotoToServer();
 		}
-		let location = await Location.getCurrentPositionAsync({});
+		const location = await Location.getCurrentPositionAsync({});
 		setLocation(location);
 	};
 
 	const publishPhoto = () => {
 		const post = {
 			id: uuidv4(),
-			photo,
+			photoURL,
 			placeName,
 			localization,
 		};
-		navigation.navigate("Posts", {screen: 'DefaultScreen', params: post});
+		navigation.navigate("Posts", { screen: "DefaultScreen", params: post });
 	};
 
 	if (hasPermission === false) {
@@ -76,12 +100,12 @@ export const CreatePostsScreen = ({ navigation }) => {
 
 	const createNewPost = localization === "" || placeName === "" || photo === "";
 
-  let localPosition = 'Waiting..';
-  if (errorMsg) {
-    localPosition = errorMsg;
-  } else if (location) {
-    localPosition = `${location.coords.latitude}, ${location.coords.longitude}`;
-  }
+	let localPosition = "Waiting..";
+	if (errorMsg) {
+		localPosition = errorMsg;
+	} else if (location) {
+		localPosition = `${location.coords.latitude}, ${location.coords.longitude}`;
+	}
 
 	return (
 		<ScrollView style={styles.container}>
