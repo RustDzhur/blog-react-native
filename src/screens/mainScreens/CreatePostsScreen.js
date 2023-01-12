@@ -41,6 +41,7 @@ export const CreatePostsScreen = ({ navigation }) => {
 		await getDownloadURL(ref(storage, `postImage/${uniqPostId}/${photo}`))
 			.then(url => {
 				setPhotoURL(url)
+				console.log('Download', url)
 			})
 			.catch(error => {
 				console.log(error)

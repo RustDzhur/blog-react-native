@@ -9,11 +9,11 @@ export const authSlice = createSlice({
 	},
 	extraReducers: builder => {
 		builder
-			.addCase(signIn.fulfilled, (state, action) => ({
+			.addCase(signIn.fulfilled, (state, action) => console.log(action.payload)({
 				...state,
 				userId: action.payload.uid,
 			}))
-			.addCase(createNewUser.fulfilled, (state, action) => ({
+			.addCase(createNewUser.fulfilled, (state, action) => console.log(action)({
 				...state,
 				userId: action.payload.uid,
 				userName: action.payload.displayName,
