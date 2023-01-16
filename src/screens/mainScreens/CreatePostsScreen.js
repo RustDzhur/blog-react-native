@@ -7,19 +7,18 @@ import {
 	TextInput,
 	ScrollView,
 } from "react-native";
+import * as ImagePicker from "expo-image-picker";
 import { v4 as uuidv4 } from "uuid";
 import { useState, useEffect, useRef } from "react";
 import { useFonts } from "expo-font";
 import { Camera } from "expo-camera";
 import "react-native-get-random-values";
 import * as Location from "expo-location";
-import { ref, uploadBytes, getDownloadURL, updateMetadata } from "firebase/storage";
-import { storage } from "../../firebase/config";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export const CreatePostsScreen = ({ navigation }) => {
 	const [hasPermission, setHasPermission] = useState(null);
 	const [photo, setPhoto] = useState("");
-	const [photoURL, setPhotoURL] = useState('')
 	const [isCameraReady, setIsCameraReady] = useState(false);
 	const [placeName, setPlaceName] = useState("");
 	const [localization, setLocalization] = useState("");
@@ -27,31 +26,41 @@ export const CreatePostsScreen = ({ navigation }) => {
 	const [errorMsg, setErrorMsg] = useState(null);
 	const cameraRef = useRef();
 
-	const uploadPhotoToServer = async () => {
-		//! Решить этот момент
-		const newMetadata = {
-			type: 'image/jpeg'
-		};
-		const uniqPostId = Date.now().toString()
-		const storageRef = ref(storage, `postImage/${uniqPostId}/${photo}`);
-		await uploadBytes(storageRef, newMetadata).then(snapshot => {
-			console.log("Uploaded", snapshot);
+	const uploadPhotoToServer = async (uri) => {
+		const blob = await new Promise((resolve, reject) => {
+			const xhr = new XMLHttpRequest();
+			xhr.onload = function () {
+				resolve(xhr.response);
+			};
+			xhr.onerror = function (e) {
+				console.log(e);
+				reject(new TypeError("Network request failed"));
+			};
+			xhr.responseType = "blob";
+			xhr.open("GET", uri, true);
+			xhr.send(null);
 		});
 
-		await getDownloadURL(ref(storage, `postImage/${uniqPostId}/${photo}`))
-			.then(url => {
-				setPhotoURL(url)
-				console.log('Download', url)
-			})
-			.catch(error => {
-				console.log(error)
-			});
+		const fileRef = ref(getStorage(), uuidv4());
+		const result = await uploadBytes(fileRef, blob);
+
+		// We're done with the blob, close and release it
+		blob.close();
+
+		const dowloadedURL = await getDownloadURL(fileRef);
+		setPhoto(dowloadedURL)
 	};
 
 	useEffect(() => {
 		(async () => {
-			const { status } = await Camera.requestCameraPermissionsAsync();
-			setHasPermission(status === "granted");
+			if (Platform.OS !== "web") {
+				const { status } =
+					await ImagePicker.requestMediaLibraryPermissionsAsync();
+				setHasPermission(status === "granted");
+				if (status !== "granted") {
+					alert("Sorry, we need camera roll permissions to make this work!");
+				}
+			}
 		})();
 		(async () => {
 			let { status } = await Location.requestForegroundPermissionsAsync();
@@ -67,19 +76,26 @@ export const CreatePostsScreen = ({ navigation }) => {
 	};
 
 	const getPhoto = async () => {
-		if (cameraRef.current) {
-			const data = await cameraRef.current.takePictureAsync();
-			setPhoto(data.uri);
-			uploadPhotoToServer();
+		let pickerResult = await ImagePicker.launchCameraAsync({
+			allowsEditing: true,
+			aspect: [4, 3],
+		});
+		if (!pickerResult.canceled) {
+			uploadPhotoToServer(pickerResult.assets[0].uri)
 		}
 		const location = await Location.getCurrentPositionAsync({});
 		setLocation(location);
+
+		// let pickerResult = await ImagePicker.launchImageLibraryAsync({
+		//   allowsEditing: true,
+		//   aspect: [4, 3]
+		// })
 	};
 
 	const publishPhoto = () => {
 		const post = {
 			id: uuidv4(),
-			photoURL,
+			photo,
 			placeName,
 			localization,
 		};
